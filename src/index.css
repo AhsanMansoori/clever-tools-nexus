@@ -1,0 +1,265 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Gradient colors - soft blue to purple */
+    --gradient-from: 207 89% 86%; /* #8EC5FC */
+    --gradient-to: 273 85% 87%; /* #E0C3FC */
+    
+    /* Main background */
+    --background: 210 100% 97%;
+    --foreground: 225 25% 20%;
+
+    /* Glass card styling */
+    --card: 0 0% 100%;
+    --card-foreground: 225 25% 20%;
+    --card-glass: 0 0% 100% / 0.7;
+    
+    /* Tool card colors */
+    --tool-card-bg: 0 0% 100% / 0.6;
+    --tool-card-border: 210 50% 90%;
+    --tool-card-hover: 0 0% 100% / 0.85;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 225 25% 20%;
+
+    /* Brand colors */
+    --primary: 220 90% 56%; /* Blue accent */
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 220 90% 48%;
+    
+    /* Hero button variant */
+    --hero-button: 220 90% 56%;
+    --hero-button-foreground: 0 0% 100%;
+    --hero-button-hover: 220 90% 48%;
+
+    --secondary: 210 50% 96%;
+    --secondary-foreground: 225 25% 20%;
+
+    --muted: 210 50% 96%;
+    --muted-foreground: 225 15% 55%;
+
+    --accent: 273 85% 87%;
+    --accent-foreground: 225 25% 20%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 40% 90%;
+    --input: 210 40% 95%;
+    --ring: 220 90% 56%;
+
+    --radius: 1rem;
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
+    /* Shadows */
+    --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    --shadow-hover: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+    --shadow-card: 0 4px 20px 0 rgba(31, 38, 135, 0.08);
+    --shadow-card-hover: 0 8px 30px 0 rgba(31, 38, 135, 0.12);
+    
+    /* Sidebar colors */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --gradient-from: 207 89% 36%;
+    --gradient-to: 273 85% 37%;
+    
+    --background: 225 25% 12%;
+    --foreground: 210 40% 98%;
+
+    --card: 225 25% 15%;
+    --card-foreground: 210 40% 98%;
+    --card-glass: 225 25% 15% / 0.7;
+    
+    --tool-card-bg: 225 25% 15% / 0.6;
+    --tool-card-border: 225 25% 25%;
+    --tool-card-hover: 225 25% 18% / 0.85;
+
+    --popover: 225 25% 15%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 220 90% 56%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 220 90% 48%;
+    
+    --hero-button: 220 90% 56%;
+    --hero-button-foreground: 0 0% 100%;
+    --hero-button-hover: 220 90% 48%;
+
+    --secondary: 225 25% 20%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 225 25% 20%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 273 85% 37%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 225 25% 25%;
+    --input: 225 25% 20%;
+    --ring: 220 90% 56%;
+    
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-gradient-to-br from-[hsl(var(--gradient-from))] to-[hsl(var(--gradient-to))] text-foreground font-['Inter',sans-serif];
+    min-height: 100vh;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  /* Glass card styles */
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-[var(--shadow-card)];
+  }
+  
+  .glass-card-hover {
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  .glass-card-hover:hover {
+    @apply bg-white/90 shadow-[var(--shadow-card-hover)] -translate-y-1;
+  }
+  
+  /* Tool card styles */
+  .tool-card {
+    @apply bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl;
+    @apply shadow-sm transition-all duration-300 ease-out;
+  }
+  
+  .tool-card:hover {
+    @apply shadow-lg border-primary/30 -translate-y-1;
+  }
+  
+  .bg-checkered {
+    background-image: 
+      linear-gradient(45deg, hsl(var(--muted)) 25%, transparent 25%),
+      linear-gradient(-45deg, hsl(var(--muted)) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, hsl(var(--muted)) 75%),
+      linear-gradient(-45deg, transparent 75%, hsl(var(--muted)) 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  }
+  
+  /* Animations */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-pulse-soft {
+    animation: pulseSoft 3s ease-in-out infinite;
+  }
+  
+  @keyframes pulseSoft {
+    0%, 100% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  
+  /* Section divider */
+  .section-divider {
+    @apply w-16 h-1 bg-gradient-to-r from-primary to-accent rounded-full mx-auto;
+  }
+}
+
+/* Navbar css */
+/* Dropdown item styling */
+.dropdown-item {
+  @apply block px-3 py-2 rounded-lg text-foreground hover:bg-primary/10 hover:text-primary transition-all font-medium;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out;
+}
+
+/* Scroll indicator animation */
+@keyframes scrollBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.animate-scroll-bounce {
+  animation: scrollBounce 2s ease-in-out infinite;
+}

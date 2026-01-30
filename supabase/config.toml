@@ -1,0 +1,7 @@
+project_id = "briqerghhjclpczuufcw"
+
+[functions.send-contact-email]
+verify_jwt = false
+
+[functions.format-word-document]
+verify_jwt = false
