@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Server temporary files
+server/uploads/
+server/public/downloads/

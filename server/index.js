@@ -6,8 +6,11 @@ const cors = require('cors');
 const { exec } = require('child_process');
 const { v4: uuidv4 } = require('uuid');
 const util = require('util');
+const libre = require('libreoffice-convert');
 
 const execAsync = util.promisify(exec);
+const libreConvertAsync = util.promisify(libre.convert);
+
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -32,20 +35,21 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage,
-    limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+    limits: { fileSize: 50 * 1024 * 1024 }, // Increased to 50MB
     fileFilter: (req, file, cb) => {
         const ext = path.extname(file.originalname).toLowerCase();
-        if (ext === '.pdf') {
+        const allowed = ['.pdf', '.docx', '.doc', '.rtf'];
+        if (allowed.includes(ext)) {
             cb(null, true);
         } else {
-            cb(new Error('Invalid file type. Our PDF engine requires a .pdf file.'));
+            cb(new Error('Invalid file type. Supported: PDF, DOCX, DOC, RTF'));
         }
     }
 });
 
 /**
  * Route: PDF to Word Conversion
- * Receives PDF -> Processes via Python -> Returns Download Link -> Schedules Deletion
+ * Receives PDF -> Processes via Python -> Returns Download Link
  */
 app.post('/api/convert/pdf-to-word', upload.single('file'), async (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
@@ -55,47 +59,156 @@ app.post('/api/convert/pdf-to-word', upload.single('file'), async (req, res) => 
     const outputPath = path.join(__dirname, 'public/downloads', downloadFileName);
 
     try {
-        console.log(`[Processing] ${req.file.originalname} -> ${downloadFileName}`);
+        console.log(`[Processing PDF->Word] ${req.file.originalname} -> ${downloadFileName}`);
 
-        // Call the Python script (Ensure pdf2docx is installed in the environment)
-        // Command template: python scripts/pdf_to_docx.py input.pdf output.docx
+        // Ensure scripts/pdf_to_docx.py exists before executing
         await execAsync(`python scripts/pdf_to_docx.py "${inputPath}" "${outputPath}"`);
 
         if (!fs.existsSync(outputPath)) {
             throw new Error('High-fidelity conversion engine failed to produce output.');
         }
 
-        // Return the download URL to the frontend
-        const downloadUrl = `/downloads/${downloadFileName}`;
         res.json({
             success: true,
-            downloadUrl,
-            message: 'Conversion successful. File will be deleted in 60 minutes.'
+            downloadUrl: `/downloads/${downloadFileName}`,
+            message: 'Conversion successful.'
         });
 
-        // AUTO-SCHEDULE DELETION (60 Minutes)
-        // This ensures the server storage remains clean
-        setTimeout(() => {
-            [inputPath, outputPath].forEach(file => {
-                if (fs.existsSync(file)) {
-                    fs.unlink(file, (err) => {
-                        if (err) console.error(`[Cleanup Error] Failed to delete ${file}:`, err);
-                        else console.log(`[Cleanup] Deleted expired file: ${file}`);
-                    });
-                }
-            });
-        }, 60 * 60 * 1000); // 60 minutes
-
+        // Cleanup after 60 mins
+        scheduleCleanup([inputPath, outputPath]);
     } catch (error) {
         console.error('PDF Conversion Error:', error);
-        // Instant cleanup on failure
         if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
-        res.status(500).json({ error: 'Failed to convert PDF. Please ensure the file is not corrupted or password-secured.' });
+        res.status(500).json({ error: 'Failed to convert PDF. Ensure it is not password-secured.' });
     }
 });
 
+/**
+ * Route: Word to PDF Conversion
+ * Receives Docx -> Processes via LibreOffice -> Returns Download Link
+ */
+app.post('/api/convert/word-to-pdf', upload.single('file'), async (req, res) => {
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+
+    const inputPath = req.file.path;
+    const downloadFileName = `converted_${uuidv4()}.pdf`;
+    const outputPath = path.join(__dirname, 'public/downloads', downloadFileName);
+
+    try {
+        console.log(`[Processing Word->PDF] ${req.file.originalname} -> ${downloadFileName}`);
+
+        const docxData = fs.readFileSync(inputPath);
+
+        // Convert docx to pdf using libreoffice-convert
+        const pdfData = await libreConvertAsync(docxData, '.pdf', undefined);
+
+        fs.writeFileSync(outputPath, pdfData);
+
+        res.json({
+            success: true,
+            downloadUrl: `/downloads/${downloadFileName}`,
+            message: 'Conversion successful.'
+        });
+
+        scheduleCleanup([inputPath, outputPath]);
+    } catch (error) {
+        console.error('Word to PDF error:', error);
+        if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+        res.status(500).json({ error: 'Failed to convert document to PDF. Please try again.' });
+    }
+});
+
+/**
+ * Route: Split PDF
+ * Receives PDF -> Processes via Python (returns zip) -> Returns Download Link
+ */
+app.post('/api/convert/split-pdf', upload.single('file'), async (req, res) => {
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+
+    const inputPath = req.file.path;
+    const downloadFileName = `split_${uuidv4()}.zip`;
+    const outputPath = path.join(__dirname, 'public/downloads', downloadFileName);
+
+    try {
+        console.log(`[Processing Split PDF] ${req.file.originalname} -> ${downloadFileName}`);
+
+        // Command: python scripts/split_pdf.py "${inputPath}" "${outputPath}"
+        await execAsync(`python scripts/split_pdf.py "${inputPath}" "${outputPath}"`);
+
+        if (!fs.existsSync(outputPath)) {
+            throw new Error('PDF Split engine failed to produce output.');
+        }
+
+        res.json({
+            success: true,
+            downloadUrl: `/downloads/${downloadFileName}`,
+            message: 'Splitting successful. Download your ZIP file.'
+        });
+
+        scheduleCleanup([inputPath, outputPath]);
+    } catch (error) {
+        console.error('Split PDF error:', error);
+        if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+        res.status(500).json({ error: 'Failed to split PDF. Please try again.' });
+    }
+});
+
+/**
+ * Route: AI Word Formatting (Word Cleaner)
+ * Receives DOCX -> Processes via Python -> Returns Polished DOCX
+ */
+app.post('/api/convert/word-cleaner', upload.single('file'), async (req, res) => {
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+
+    const inputPath = req.file.path;
+    const downloadFileName = `polished_${uuidv4()}.docx`;
+    const outputPath = path.join(__dirname, 'public/downloads', downloadFileName);
+
+    try {
+        console.log(`[Processing AI Word Formatting] ${req.file.originalname} -> ${downloadFileName}`);
+
+        // Command: python scripts/word_cleaner.py "${inputPath}" "${outputPath}"
+        await execAsync(`python scripts/word_cleaner.py "${inputPath}" "${outputPath}"`);
+
+        if (!fs.existsSync(outputPath)) {
+            throw new Error('AI Formatting engine failed to produce output.');
+        }
+
+        res.json({
+            success: true,
+            downloadUrl: `/downloads/${downloadFileName}`,
+            message: 'AI Formatting successful!'
+        });
+
+        scheduleCleanup([inputPath, outputPath]);
+    } catch (error) {
+        console.error('AI Formatting error:', error);
+        if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+        res.status(500).json({ error: 'Failed to format document. Ensure it is a valid .docx file.' });
+    }
+});
+
+/**
+ * Utility for scheduling file deletion
+ */
+function scheduleCleanup(files) {
+    setTimeout(() => {
+        files.forEach(file => {
+            if (fs.existsSync(file)) {
+                fs.unlink(file, (err) => {
+                    if (err) console.error(`[Cleanup Error] Failed to delete ${file}:`, err);
+                    else console.log(`[Cleanup] Deleted expired file: ${file}`);
+                });
+            }
+        });
+    }, 60 * 60 * 1000); // 60 mins
+}
+
 // Basic status route
-app.get('/status', (req, res) => res.json({ status: 'online', engine: 'Node + Python pdf2docx' }));
+app.get('/status', (req, res) => res.json({
+    status: 'online',
+    engines: ['pdf2docx', 'libreoffice-convert', 'PyMuPDF', 'python-docx']
+}));
 
 app.listen(port, () => {
     console.log(`=========================================`);
@@ -103,3 +216,4 @@ app.listen(port, () => {
     console.log(`📁 Public Downloads: /downloads/`);
     console.log(`=========================================`);
 });
+

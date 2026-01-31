@@ -4,14 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
+import useFileHandler from "@/hooks/useFileHandler";
 
 const WordToPdfTool = () => {
-  const [file, setFile] = useState<File | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
-  const [isConverting, setIsConverting] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [status, setStatus] = useState("");
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+
+  const {
+    file,
+    isLoading,
+    progress,
+    downloadUrl,
+    handleUpload,
+    reset
+  } = useFileHandler('/api/convert/word-to-pdf');
 
   const formatFileSize = (bytes: number): string => {
     if (bytes === 0) return "0 Bytes";
@@ -31,53 +36,13 @@ const WordToPdfTool = () => {
       return;
     }
 
-    setFile(selectedFile);
-    setDownloadUrl(null);
+    handleUpload(selectedFile);
   };
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
     onFileChange(e.dataTransfer.files);
-  };
-
-  const convert = async () => {
-    if (!file) return;
-    setIsConverting(true);
-    setProgress(20);
-    setStatus("Initializing Neural Engine...");
-
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      // Using the backend server implemented earlier
-      const response = await fetch("http://localhost:5000/api/convert/word-to-pdf", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) throw new Error("Conversion failed");
-
-      setProgress(70);
-      setStatus("Rendering High-Fidelity PDF...");
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      setDownloadUrl(url);
-      setProgress(100);
-      toast.success("Conversion successful!");
-    } catch (error) {
-      toast.error("Server conversion failed.");
-    } finally {
-      setIsConverting(false);
-    }
-  };
-
-  const reset = () => {
-    setFile(null);
-    setDownloadUrl(null);
-    setProgress(0);
   };
 
   return (
@@ -95,7 +60,10 @@ const WordToPdfTool = () => {
             <FileText className="w-10 h-10 text-blue-600" />
           </div>
           <h3 className="text-2xl font-black mb-3 text-slate-900">Drop Word document here</h3>
-          <p className="text-slate-500 font-medium">Supports .docx, .doc, and .rtf formats</p>
+          <p className="text-slate-500 font-medium pb-2">Supports .docx, .doc, and .rtf formats</p>
+          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-7 rounded-2xl text-lg font-bold shadow-xl shadow-blue-500/20 pointer-events-none">
+            Select Word File
+          </Button>
         </div>
       ) : (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
@@ -109,18 +77,18 @@ const WordToPdfTool = () => {
                 <p className="text-xs font-black text-slate-400 uppercase tracking-widest">{formatFileSize(file.size)}</p>
               </div>
             </div>
-            {!isConverting && !downloadUrl && (
+            {!isLoading && !downloadUrl && (
               <Button variant="ghost" size="icon" onClick={reset} className="text-slate-300 hover:text-red-500 rounded-full h-12 w-12">
                 <X className="w-6 h-6" />
               </Button>
             )}
           </div>
 
-          {isConverting && (
+          {isLoading && (
             <div className="space-y-6">
               <div className="flex justify-between items-end">
                 <div className="space-y-2">
-                  <p className="text-lg font-black text-slate-900">{status}</p>
+                  <p className="text-lg font-black text-slate-900">Converting to PDF...</p>
                   <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Optimizing Typography Core</p>
                 </div>
                 <span className="text-4xl font-black text-blue-600 tabular-nums">{progress}%</span>
@@ -152,12 +120,6 @@ const WordToPdfTool = () => {
                 </Button>
               </div>
             </div>
-          )}
-
-          {!isConverting && !downloadUrl && (
-            <Button onClick={convert} className="w-full bg-slate-900 hover:bg-black py-8 rounded-3xl text-xl font-black text-white h-auto shadow-xl">
-              Start AI Conversion
-            </Button>
           )}
 
           <div className="p-4 rounded-2xl bg-blue-50/50 border border-blue-100 text-[10px] font-black text-blue-600 uppercase tracking-widest text-center flex items-center justify-center gap-2">

@@ -18,34 +18,42 @@ interface ToolItemProps {
   description: string;
   onClick: () => void;
   delay?: number;
+  comingSoon?: boolean;
 }
 
-const ToolItem: React.FC<ToolItemProps> = ({ icon: Icon, title, description, onClick, delay = 0 }) => (
+const ToolItem: React.FC<ToolItemProps> = ({ icon: Icon, title, description, onClick, delay = 0, comingSoon }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-30px" }}
     transition={{ duration: 0.4, delay }}
-    whileHover={{ y: -4 }}
-    onClick={onClick}
-    className="group cursor-pointer"
+    {...(!comingSoon && { whileHover: { y: -4 } })}
+    onClick={comingSoon ? undefined : onClick}
+    className={`group relative ${comingSoon ? "cursor-default opacity-60 pointer-events-none" : "cursor-pointer"}`}
   >
-    <div className="tool-card p-4 h-full">
+    {comingSoon && (
+      <div className="absolute top-2 right-2 bg-yellow-400 text-yellow-900 text-[10px] font-black px-2 py-0.5 rounded-full z-10 uppercase tracking-tighter">
+        Coming Soon
+      </div>
+    )}
+    <div className={`tool-card p-4 h-full ${comingSoon ? "border-dashed" : ""}`}>
       <div className="flex items-center gap-3">
         <motion.div
-          whileHover={{ scale: 1.1, rotate: 5 }}
-          transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0"
+          {...(!comingSoon && {
+            whileHover: { scale: 1.1, rotate: 5 },
+            transition: { type: "spring", stiffness: 400, damping: 17 }
+          })}
+          className={`w-10 h-10 ${comingSoon ? "bg-muted" : "bg-primary/10"} rounded-lg flex items-center justify-center flex-shrink-0`}
         >
-          <Icon className="w-5 h-5 text-primary" />
+          <Icon className={`w-5 h-5 ${comingSoon ? "text-muted-foreground" : "text-primary"}`} />
         </motion.div>
         <div className="flex-1 min-w-0">
-          <h4 className="font-medium text-foreground text-sm group-hover:text-primary transition-colors truncate">
+          <h4 className={`font-medium ${comingSoon ? "text-muted-foreground" : "text-foreground group-hover:text-primary"} text-sm transition-colors truncate`}>
             {title}
           </h4>
           <p className="text-xs text-muted-foreground truncate">{description}</p>
         </div>
-        <ArrowRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+        {!comingSoon && <ArrowRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all flex-shrink-0" />}
       </div>
     </div>
   </motion.div>
@@ -102,8 +110,8 @@ const ToolsSection = () => {
     { icon: FileText, title: "Merge PDF", description: "Combine multiple PDF documents into a single file.", link: "/pdf/merge-pdf" },
     { icon: FileText, title: "Split PDF", description: "Extract specific pages or split your PDF into parts.", link: "/pdf/split-pdf" },
     { icon: FileText, title: "Compress PDF", description: "Reduce PDF file size without losing document quality.", link: "/pdf/compress-pdf" },
-    { icon: FileText, title: "PDF to Word", description: "Convert your PDF files into editable Word documents.", link: "/pdf/pdf-to-word" },
-    { icon: FileText, title: "Word to PDF", description: "Transform Word documents into professional PDF files.", link: "/pdf/word-to-pdf" },
+    { icon: FileText, title: "PDF to Word", description: "Convert your PDF files into editable Word documents.", link: "/pdf/pdf-to-word", comingSoon: true },
+    { icon: FileText, title: "Word to PDF", description: "Transform Word documents into professional PDF files.", link: "/pdf/word-to-pdf", comingSoon: true },
   ];
 
   const imageTools = [
@@ -144,6 +152,7 @@ const ToolsSection = () => {
                 description={tool.description}
                 onClick={() => navigate(tool.link)}
                 delay={i * 0.05}
+                comingSoon={(tool as any).comingSoon}
               />
             ))}
           </div>
@@ -160,6 +169,7 @@ const ToolsSection = () => {
                 description={tool.description}
                 onClick={() => navigate(tool.link)}
                 delay={i * 0.05}
+                comingSoon={(tool as any).comingSoon}
               />
             ))}
           </div>

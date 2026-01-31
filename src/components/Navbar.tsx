@@ -26,8 +26,8 @@ const toolCategories = [
       { name: "Merge PDF", link: "/pdf/merge-pdf" },
       { name: "Split PDF", link: "/pdf/split-pdf" },
       { name: "Compress PDF", link: "/pdf/compress-pdf" },
-      { name: "PDF to Word", link: "/pdf/pdf-to-word" },
-      { name: "Word to PDF", link: "/pdf/word-to-pdf" },
+      { name: "PDF to Word", link: "/pdf/pdf-to-word", comingSoon: true },
+      { name: "Word to PDF", link: "/pdf/word-to-pdf", comingSoon: true },
     ],
   },
   {
@@ -196,11 +196,22 @@ const Navbar = () => {
                       {toolCategories.find(c => c.name === "AI Tools")?.tools.map((tool) => (
                         <Link
                           key={tool.name}
-                          to={tool.link}
-                          className="flex items-center justify-between px-4 py-3 rounded-xl text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200"
+                          to={(tool as any).comingSoon ? "#" : tool.link}
+                          onClick={(e) => (tool as any).comingSoon && e.preventDefault()}
+                          className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-all duration-200 ${(tool as any).comingSoon
+                              ? "text-muted-foreground/50 cursor-default grayscale"
+                              : "text-muted-foreground hover:text-primary hover:bg-primary/5"
+                            }`}
                         >
-                          <span>{tool.name}</span>
-                          <ChevronRight className="w-3 h-3" />
+                          <span className="flex items-center gap-2">
+                            {tool.name}
+                            {(tool as any).comingSoon && (
+                              <span className="text-[9px] font-black bg-yellow-400 text-yellow-900 px-1.5 py-0.5 rounded-full uppercase tracking-tighter shadow-sm">
+                                Soon
+                              </span>
+                            )}
+                          </span>
+                          {!(tool as any).comingSoon && <ChevronRight className="w-3 h-3" />}
                         </Link>
                       ))}
                     </div>
@@ -251,11 +262,22 @@ const Navbar = () => {
                       {toolCategories.find(c => c.name === "PDF Tools")?.tools.map((tool) => (
                         <Link
                           key={tool.name}
-                          to={tool.link}
-                          className="flex items-center justify-between px-4 py-3 rounded-xl text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200"
+                          to={(tool as any).comingSoon ? "#" : tool.link}
+                          onClick={(e) => (tool as any).comingSoon && e.preventDefault()}
+                          className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-all duration-200 ${(tool as any).comingSoon
+                              ? "text-muted-foreground/50 cursor-default grayscale"
+                              : "text-muted-foreground hover:text-primary hover:bg-primary/5"
+                            }`}
                         >
-                          <span>{tool.name}</span>
-                          <ChevronRight className="w-3 h-3" />
+                          <span className="flex items-center gap-2">
+                            {tool.name}
+                            {(tool as any).comingSoon && (
+                              <span className="text-[9px] font-black bg-yellow-400 text-yellow-900 px-1.5 py-0.5 rounded-full uppercase tracking-tighter shadow-sm">
+                                Soon
+                              </span>
+                            )}
+                          </span>
+                          {!(tool as any).comingSoon && <ChevronRight className="w-3 h-3" />}
                         </Link>
                       ))}
                     </div>
@@ -306,11 +328,22 @@ const Navbar = () => {
                       {toolCategories.find(c => c.name === "Image Tools")?.tools.map((tool) => (
                         <Link
                           key={tool.name}
-                          to={tool.link}
-                          className="flex items-center justify-between px-4 py-3 rounded-xl text-sm text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all duration-200"
+                          to={(tool as any).comingSoon ? "#" : tool.link}
+                          onClick={(e) => (tool as any).comingSoon && e.preventDefault()}
+                          className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-all duration-200 ${(tool as any).comingSoon
+                              ? "text-muted-foreground/50 cursor-default grayscale"
+                              : "text-muted-foreground hover:text-primary hover:bg-primary/5"
+                            }`}
                         >
-                          <span>{tool.name}</span>
-                          <ChevronRight className="w-3 h-3" />
+                          <span className="flex items-center gap-2">
+                            {tool.name}
+                            {(tool as any).comingSoon && (
+                              <span className="text-[9px] font-black bg-yellow-400 text-yellow-900 px-1.5 py-0.5 rounded-full uppercase tracking-tighter shadow-sm">
+                                Soon
+                              </span>
+                            )}
+                          </span>
+                          {!(tool as any).comingSoon && <ChevronRight className="w-3 h-3" />}
                         </Link>
                       ))}
                     </div>
@@ -481,14 +514,24 @@ const Navbar = () => {
                                       transition={{ delay: toolIdx * 0.03 }}
                                     >
                                       <Link
-                                        to={tool.link}
-                                        className={`flex items-center justify-between py-3 px-4 text-sm transition-all duration-200 border-t border-border/10 ${isActive(tool.link)
-                                          ? `bg-gradient-to-r ${category.color} text-white`
-                                          : "text-muted-foreground hover:text-foreground hover:bg-muted/20"
+                                        to={(tool as any).comingSoon ? "#" : tool.link}
+                                        onClick={(e) => (tool as any).comingSoon && e.preventDefault()}
+                                        className={`flex items-center justify-between py-3 px-4 text-sm transition-all duration-200 border-t border-border/10 ${(tool as any).comingSoon
+                                            ? "text-muted-foreground/40 bg-muted/5 cursor-default"
+                                            : isActive(tool.link)
+                                              ? `bg-gradient-to-r ${category.color} text-white`
+                                              : "text-muted-foreground hover:text-foreground hover:bg-muted/20"
                                           }`}
                                       >
-                                        {tool.name}
-                                        <ChevronRight className="w-4 h-4" />
+                                        <span className="flex items-center gap-2">
+                                          {tool.name}
+                                          {(tool as any).comingSoon && (
+                                            <span className="text-[8px] font-black bg-yellow-400 text-yellow-900 px-1 py-0.5 rounded-full uppercase tracking-tighter">
+                                              Soon
+                                            </span>
+                                          )}
+                                        </span>
+                                        {!(tool as any).comingSoon && <ChevronRight className="w-4 h-4" />}
                                       </Link>
                                     </motion.div>
                                   ))}

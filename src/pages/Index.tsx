@@ -74,8 +74,8 @@ const Index = () => {
         { name: "Merge PDF", path: "/pdf/merge-pdf", icon: Files, color: "text-slate-600 bg-slate-50" },
         { name: "Split PDF", path: "/pdf/split-pdf", icon: Scissors, color: "text-slate-600 bg-slate-50" },
         { name: "Compress PDF", path: "/pdf/compress-pdf", icon: Archive, color: "text-slate-600 bg-slate-50" },
-        { name: "PDF to Word", path: "/pdf/pdf-to-word", icon: FileText, color: "text-slate-600 bg-slate-50" },
-        { name: "Word to PDF", path: "/pdf/word-to-pdf", icon: FileText, color: "text-slate-600 bg-slate-50" },
+        { name: "PDF to Word", path: "/pdf/pdf-to-word", icon: FileText, color: "text-slate-600 bg-slate-50", comingSoon: true },
+        { name: "Word to PDF", path: "/pdf/word-to-pdf", icon: FileText, color: "text-slate-600 bg-slate-50", comingSoon: true },
       ]
     },
     {
@@ -253,9 +253,10 @@ const Index = () => {
                   {category.items.map((tool, toolIdx) => (
                     <Link
                       key={toolIdx}
-                      to={tool.path}
+                      to={tool.comingSoon ? "#" : tool.path}
+                      onClick={(e) => tool.comingSoon && e.preventDefault()}
                       className={`group relative p-6 md:p-8 rounded-[24px] bg-white border border-slate-200 shadow-sm transition-all duration-300 ${tool.comingSoon
-                        ? "opacity-60 grayscale cursor-not-allowed"
+                        ? "opacity-60 grayscale cursor-not-allowed pointer-events-none"
                         : "hover:shadow-md hover:-translate-y-1 hover:border-blue-500 active:scale-[0.98]"
                         }`}
                     >

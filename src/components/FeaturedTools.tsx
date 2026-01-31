@@ -19,6 +19,7 @@ const featuredTools = [
     title: "PDF to Word",
     description: "Extract text from PDF to Word",
     link: "/pdf/pdf-to-word",
+    comingSoon: true,
   },
   {
     icon: FileImage,
@@ -37,6 +38,7 @@ const featuredTools = [
     title: "Word to PDF",
     description: "Convert Word docs to PDF",
     link: "/pdf/word-to-pdf",
+    comingSoon: true,
   },
 ];
 
@@ -59,13 +61,24 @@ const FeaturedTools = () => {
           {featuredTools.map((tool) => (
             <button
               key={tool.title}
-              onClick={() => navigate(tool.link)}
-              className="group bg-card/80 backdrop-blur-sm border border-border/50 p-4 rounded-xl text-left hover:shadow-lg hover:border-primary/30 transition-all duration-200 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary/50"
+              onClick={() => !tool.comingSoon && navigate(tool.link)}
+              disabled={tool.comingSoon}
+              className={`group relative bg-card/80 backdrop-blur-sm border border-border/50 p-4 rounded-xl text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50 ${tool.comingSoon
+                ? "opacity-60 cursor-default grayscale-[0.2] pointer-events-none"
+                : "hover:shadow-lg hover:border-primary/30 hover:-translate-y-1"
+                }`}
             >
-              <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
-                <tool.icon className="w-5 h-5 text-primary" />
+              {tool.comingSoon && (
+                <div className="absolute top-2 right-2 bg-yellow-400/90 text-[8px] font-black text-yellow-950 px-1.5 py-0.5 rounded-full z-10 uppercase">
+                  Soon
+                </div>
+              )}
+              <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-3 transition-colors ${tool.comingSoon ? "bg-muted" : "bg-primary/10 group-hover:bg-primary/20"
+                }`}>
+                <tool.icon className={`w-5 h-5 ${tool.comingSoon ? "text-muted-foreground" : "text-primary"}`} />
               </div>
-              <h3 className="font-semibold text-foreground text-sm mb-0.5 group-hover:text-primary transition-colors">
+              <h3 className={`font-semibold text-sm mb-0.5 transition-colors ${tool.comingSoon ? "text-muted-foreground" : "text-foreground group-hover:text-primary"
+                }`}>
                 {tool.title}
               </h3>
               <p className="text-xs text-muted-foreground line-clamp-2">

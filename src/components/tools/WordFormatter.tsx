@@ -91,17 +91,21 @@ const WordFormatterTool = () => {
         body: formData,
       });
 
-      if (!response.ok) throw new Error("Formatting engine error");
+      const data = await response.json();
+
+      if (!data.success) throw new Error(data.error || "Formatting engine error");
 
       setProgress(80);
       setStatusText("Injecting high-fidelity XML styles...");
 
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+      // Use the downloadUrl from the server
+      const downloadLink = `http://localhost:5000${data.downloadUrl}`;
       const a = document.createElement("a");
-      a.href = url;
+      a.href = downloadLink;
       a.download = `toolify-formatted-${mainDocument.name}`;
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
 
       setProgress(100);
       toast.success("Formatting perfect!");
