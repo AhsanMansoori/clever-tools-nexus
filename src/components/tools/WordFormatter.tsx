@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
-import { FileText, X, Loader2, Sparkles, Shield, CheckCircle2 } from "lucide-react";
+import { useState, useCallback, useRef } from "react";
+import { FileText, X, Loader2, Sparkles, Shield, CheckCircle2, Eye, EyeOff, Download, ArrowLeft, FileDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import mammoth from "mammoth";
 import {
   Document,
@@ -61,6 +62,13 @@ const WordFormatterTool = () => {
   const [progress, setProgress] = useState(0);
   const [statusText, setStatusText] = useState("");
   const [isDragOverReq, setIsDragOverReq] = useState(false);
+
+  // Preview mode state
+  const [showPreview, setShowPreview] = useState(false);
+  const [previewContent, setPreviewContent] = useState<string>("");
+  const [previewRules, setPreviewRules] = useState<FormattingRules | null>(null);
+  const [previewSummary, setPreviewSummary] = useState<string>("");
+  const previewBlobRef = useRef<Blob | null>(null);
 
   // TOC options
   const [tocEnabled, setTocEnabled] = useState(false);
@@ -372,37 +380,26 @@ const WordFormatterTool = () => {
       }
 
       setProgress(70);
-      setStatusText("Generating formatted Word document...");
+      setStatusText("Generating preview...");
 
-      // Create the formatted .docx file
+      // Create the formatted .docx file and store for later download
       const blob = await createFormattedDocument(
         data.formattedContent,
         data.formattingRules,
         tocEnabled,
         tocPosition
       );
-
-      setProgress(90);
-      setStatusText("Preparing download...");
-
-      // Download the file
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      const baseName = mainDocument.name.replace(/\.(docx?|doc)$/i, '');
-      a.download = `${baseName}-formatted.docx`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      previewBlobRef.current = blob;
 
       setProgress(100);
-      toast.success(data.summary || "Document formatted successfully!");
       
-      // Reset state
-      setMainDocument(null);
-      setRequirementFile(null);
-      setFormattingInstructions('');
+      // Set preview content and show preview mode
+      setPreviewContent(data.formattedContent);
+      setPreviewRules(data.formattingRules);
+      setPreviewSummary(data.summary || "Document formatted successfully");
+      setShowPreview(true);
+      
+      toast.success("Preview ready! Review your formatted document.");
     } catch (error) {
       console.error('Formatting error:', error);
       toast.error(error instanceof Error ? error.message : "AI Formatting failed. Please try again.");
@@ -412,6 +409,196 @@ const WordFormatterTool = () => {
       setStatusText("");
     }
   };
+
+  const handleDownload = () => {
+    if (!previewBlobRef.current || !mainDocument) {
+      toast.error("No document to download");
+      return;
+    }
+    
+    const url = URL.createObjectURL(previewBlobRef.current);
+    const a = document.createElement('a');
+    a.href = url;
+    const baseName = mainDocument.name.replace(/\.(docx?|doc)$/i, '');
+    a.download = `${baseName}-formatted.docx`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    toast.success("Document downloaded!");
+  };
+
+  const handleBackToEdit = () => {
+    setShowPreview(false);
+    setPreviewContent("");
+    setPreviewRules(null);
+    setPreviewSummary("");
+    previewBlobRef.current = null;
+  };
+
+  const handleFinish = () => {
+    handleDownload();
+    setShowPreview(false);
+    setPreviewContent("");
+    setPreviewRules(null);
+    setPreviewSummary("");
+    previewBlobRef.current = null;
+    setMainDocument(null);
+    setRequirementFile(null);
+    setFormattingInstructions('');
+  };
+
+  // Preview Mode UI
+  if (showPreview) {
+    return (
+      <div className="w-full p-6 md:p-12 space-y-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-6"
+        >
+          {/* Header with actions */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <h2 className="text-2xl font-black text-slate-900 flex items-center gap-3">
+                <Eye className="w-6 h-6 text-blue-600" />
+                Preview Formatted Document
+              </h2>
+              <p className="text-sm text-slate-500">{previewSummary}</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <Button
+                variant="outline"
+                onClick={handleBackToEdit}
+                className="rounded-full"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Edit
+              </Button>
+              <Button
+                onClick={handleFinish}
+                className="bg-blue-600 hover:bg-blue-700 text-white rounded-full"
+              >
+                <FileDown className="w-4 h-4 mr-2" />
+                Download & Finish
+              </Button>
+            </div>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-6">
+            {/* Main Preview Area */}
+            <div className="lg:col-span-2 bg-white border border-slate-200 rounded-[32px] shadow-lg overflow-hidden">
+              <div className="bg-slate-100 px-6 py-3 border-b border-slate-200 flex items-center justify-between">
+                <span className="text-xs font-black uppercase text-slate-400 tracking-widest">Document Preview</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-400" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                  <div className="w-3 h-3 rounded-full bg-green-400" />
+                </div>
+              </div>
+              <ScrollArea className="h-[600px]">
+                <div 
+                  className="p-8 prose prose-slate max-w-none"
+                  style={{
+                    fontFamily: previewRules?.fontFamily || 'Times New Roman',
+                    fontSize: previewRules?.fontSize || '12pt',
+                    lineHeight: previewRules?.lineSpacing || '1.5',
+                  }}
+                  dangerouslySetInnerHTML={{ __html: previewContent }}
+                />
+              </ScrollArea>
+            </div>
+
+            {/* Formatting Rules Panel */}
+            <div className="space-y-4">
+              <div className="bg-slate-900 p-6 rounded-[28px] text-white space-y-4">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-blue-400" />
+                  <h3 className="font-black text-lg">Applied Formatting</h3>
+                </div>
+                
+                {previewRules && (
+                  <div className="space-y-3 text-sm">
+                    <div className="flex justify-between items-center py-2 border-b border-white/10">
+                      <span className="text-white/60">Font</span>
+                      <span className="font-bold text-blue-400">{previewRules.fontFamily}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-white/10">
+                      <span className="text-white/60">Size</span>
+                      <span className="font-bold text-blue-400">{previewRules.fontSize}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-white/10">
+                      <span className="text-white/60">Line Spacing</span>
+                      <span className="font-bold text-blue-400">{previewRules.lineSpacing}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-white/10">
+                      <span className="text-white/60">Alignment</span>
+                      <span className="font-bold text-blue-400 capitalize">{previewRules.alignment}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-white/10">
+                      <span className="text-white/60">Indentation</span>
+                      <span className="font-bold text-blue-400">{previewRules.indentation}</span>
+                    </div>
+                    {previewRules.citationStyle && (
+                      <div className="flex justify-between items-center py-2 border-b border-white/10">
+                        <span className="text-white/60">Citation Style</span>
+                        <span className="font-bold text-blue-400">{previewRules.citationStyle}</span>
+                      </div>
+                    )}
+                    <div className="pt-2">
+                      <span className="text-white/60 text-xs uppercase tracking-wider">Margins</span>
+                      <div className="grid grid-cols-2 gap-2 mt-2">
+                        <div className="bg-white/5 px-3 py-2 rounded-lg">
+                          <span className="text-[10px] text-white/40">Top</span>
+                          <p className="text-blue-400 font-bold text-xs">{previewRules.margins?.top}</p>
+                        </div>
+                        <div className="bg-white/5 px-3 py-2 rounded-lg">
+                          <span className="text-[10px] text-white/40">Right</span>
+                          <p className="text-blue-400 font-bold text-xs">{previewRules.margins?.right}</p>
+                        </div>
+                        <div className="bg-white/5 px-3 py-2 rounded-lg">
+                          <span className="text-[10px] text-white/40">Bottom</span>
+                          <p className="text-blue-400 font-bold text-xs">{previewRules.margins?.bottom}</p>
+                        </div>
+                        <div className="bg-white/5 px-3 py-2 rounded-lg">
+                          <span className="text-[10px] text-white/40">Left</span>
+                          <p className="text-blue-400 font-bold text-xs">{previewRules.margins?.left}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="bg-slate-50 p-6 rounded-[28px] space-y-4">
+                <h4 className="font-black text-slate-900 text-sm">Heading Styles</h4>
+                {previewRules?.headingStyles && (
+                  <div className="space-y-2">
+                    {Object.entries(previewRules.headingStyles).map(([key, style]) => (
+                      <div key={key} className="flex items-center justify-between text-xs">
+                        <span className="uppercase font-bold text-slate-400">{key}</span>
+                        <span className="text-slate-600">{style.fontSize}, {style.fontWeight}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <Button
+                onClick={handleDownload}
+                variant="outline"
+                className="w-full rounded-full border-slate-200"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Download Only
+              </Button>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full p-6 md:p-12 space-y-10">
