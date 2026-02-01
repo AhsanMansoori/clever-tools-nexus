@@ -140,7 +140,7 @@ const SplitPdfTool = () => {
         copiedPages.forEach(page => newPdf.addPage(page));
 
         const pdfBytes = await newPdf.save();
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         setResultBlob({ url, name: file.name.replace(".pdf", "_split.pdf") });
         toast.success("Document split successfully!");
