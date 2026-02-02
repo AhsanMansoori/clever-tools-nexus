@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from "react";
-import { FileText, X, Loader2, Sparkles, Shield, CheckCircle2, Eye, EyeOff, Download, ArrowLeft, FileDown } from "lucide-react";
+import { FileText, X, Loader2, Sparkles, Shield, CheckCircle2, Eye, Download, ArrowLeft, FileDown, Columns, LayoutList } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -66,8 +66,10 @@ const WordFormatterTool = () => {
   // Preview mode state
   const [showPreview, setShowPreview] = useState(false);
   const [previewContent, setPreviewContent] = useState<string>("");
+  const [originalContent, setOriginalContent] = useState<string>("");
   const [previewRules, setPreviewRules] = useState<FormattingRules | null>(null);
   const [previewSummary, setPreviewSummary] = useState<string>("");
+  const [comparisonView, setComparisonView] = useState<'side-by-side' | 'formatted-only'>('side-by-side');
   const previewBlobRef = useRef<Blob | null>(null);
 
   // TOC options
@@ -341,6 +343,8 @@ const WordFormatterTool = () => {
     try {
       // Extract content from main document
       const documentContent = await extractDocumentContent(mainDocument.file);
+      // Store original content for comparison
+      setOriginalContent(documentContent);
       setProgress(25);
       setStatusText("Analyzing document structure...");
 
@@ -432,8 +436,10 @@ const WordFormatterTool = () => {
   const handleBackToEdit = () => {
     setShowPreview(false);
     setPreviewContent("");
+    setOriginalContent("");
     setPreviewRules(null);
     setPreviewSummary("");
+    setComparisonView('side-by-side');
     previewBlobRef.current = null;
   };
 
@@ -441,8 +447,10 @@ const WordFormatterTool = () => {
     handleDownload();
     setShowPreview(false);
     setPreviewContent("");
+    setOriginalContent("");
     setPreviewRules(null);
     setPreviewSummary("");
+    setComparisonView('side-by-side');
     previewBlobRef.current = null;
     setMainDocument(null);
     setRequirementFile(null);
@@ -468,6 +476,35 @@ const WordFormatterTool = () => {
               <p className="text-sm text-slate-500">{previewSummary}</p>
             </div>
             <div className="flex items-center gap-3">
+              {/* View Toggle */}
+              <div className="flex items-center bg-slate-100 rounded-full p-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setComparisonView('side-by-side')}
+                  className={`rounded-full px-3 h-8 text-xs font-bold transition-all ${
+                    comparisonView === 'side-by-side' 
+                      ? 'bg-white shadow-sm text-slate-900' 
+                      : 'text-slate-500 hover:text-slate-700'
+                  }`}
+                >
+                  <Columns className="w-3.5 h-3.5 mr-1.5" />
+                  Compare
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setComparisonView('formatted-only')}
+                  className={`rounded-full px-3 h-8 text-xs font-bold transition-all ${
+                    comparisonView === 'formatted-only' 
+                      ? 'bg-white shadow-sm text-slate-900' 
+                      : 'text-slate-500 hover:text-slate-700'
+                  }`}
+                >
+                  <LayoutList className="w-3.5 h-3.5 mr-1.5" />
+                  Formatted
+                </Button>
+              </div>
               <Button
                 variant="outline"
                 onClick={handleBackToEdit}
@@ -486,18 +523,44 @@ const WordFormatterTool = () => {
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-6">
-            {/* Main Preview Area */}
-            <div className="lg:col-span-2 bg-white border border-slate-200 rounded-[32px] shadow-lg overflow-hidden">
-              <div className="bg-slate-100 px-6 py-3 border-b border-slate-200 flex items-center justify-between">
-                <span className="text-xs font-black uppercase text-slate-400 tracking-widest">Document Preview</span>
+          <div className={`grid gap-6 ${comparisonView === 'side-by-side' ? 'lg:grid-cols-2 xl:grid-cols-5' : 'lg:grid-cols-3'}`}>
+            {/* Original Document - Only show in side-by-side view */}
+            {comparisonView === 'side-by-side' && (
+              <div className="xl:col-span-2 bg-white border border-slate-200 rounded-[32px] shadow-lg overflow-hidden">
+                <div className="bg-amber-50 px-6 py-3 border-b border-amber-200 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-amber-500" />
+                    <span className="text-xs font-black uppercase text-amber-600 tracking-widest">Original</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-amber-300" />
+                    <div className="w-3 h-3 rounded-full bg-amber-200" />
+                    <div className="w-3 h-3 rounded-full bg-amber-100" />
+                  </div>
+                </div>
+                <ScrollArea className="h-[500px]">
+                  <div 
+                    className="p-8 prose prose-slate max-w-none prose-sm"
+                    dangerouslySetInnerHTML={{ __html: originalContent }}
+                  />
+                </ScrollArea>
+              </div>
+            )}
+
+            {/* Formatted Document */}
+            <div className={`${comparisonView === 'side-by-side' ? 'xl:col-span-2' : 'lg:col-span-2'} bg-white border border-slate-200 rounded-[32px] shadow-lg overflow-hidden`}>
+              <div className="bg-emerald-50 px-6 py-3 border-b border-emerald-200 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-400" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-400" />
-                  <div className="w-3 h-3 rounded-full bg-green-400" />
+                  <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <span className="text-xs font-black uppercase text-emerald-600 tracking-widest">Formatted</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-emerald-300" />
+                  <div className="w-3 h-3 rounded-full bg-emerald-200" />
+                  <div className="w-3 h-3 rounded-full bg-emerald-100" />
                 </div>
               </div>
-              <ScrollArea className="h-[600px]">
+              <ScrollArea className={comparisonView === 'side-by-side' ? 'h-[500px]' : 'h-[600px]'}>
                 <div 
                   className="p-8 prose prose-slate max-w-none"
                   style={{
@@ -511,7 +574,7 @@ const WordFormatterTool = () => {
             </div>
 
             {/* Formatting Rules Panel */}
-            <div className="space-y-4">
+            <div className={`${comparisonView === 'side-by-side' ? 'xl:col-span-1 lg:col-span-2' : ''} space-y-4`}>
               <div className="bg-slate-900 p-6 rounded-[28px] text-white space-y-4">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-5 h-5 text-blue-400" />
