@@ -1,4 +1,4 @@
-import { CreditCard, FileText, FileImage, Sparkles, ArrowRight } from "lucide-react";
+import { FileText, FileImage, Sparkles, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const featuredTools = [
@@ -15,11 +15,10 @@ const featuredTools = [
     link: "/pdf/merge-pdf",
   },
   {
-    icon: FileImage,
-    title: "PDF to Word",
-    description: "Extract text from PDF to Word",
-    link: "/pdf/pdf-to-word",
-    comingSoon: true,
+    icon: FileText,
+    title: "Split PDF",
+    description: "Extract pages from any PDF",
+    link: "/pdf/split-pdf",
   },
   {
     icon: FileImage,
@@ -34,11 +33,10 @@ const featuredTools = [
     link: "/pdf/pdf-to-jpg",
   },
   {
-    icon: Sparkles,
-    title: "Word to PDF",
-    description: "Convert Word docs to PDF",
-    link: "/pdf/word-to-pdf",
-    comingSoon: true,
+    icon: FileImage,
+    title: "Image Resizer",
+    description: "Resize images to any dimension",
+    link: "/image-resizer",
   },
 ];
 
@@ -61,24 +59,13 @@ const FeaturedTools = () => {
           {featuredTools.map((tool) => (
             <button
               key={tool.title}
-              onClick={() => !tool.comingSoon && navigate(tool.link)}
-              disabled={tool.comingSoon}
-              className={`group relative bg-card/80 backdrop-blur-sm border border-border/50 p-4 rounded-xl text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50 ${tool.comingSoon
-                ? "opacity-60 cursor-default grayscale-[0.2] pointer-events-none"
-                : "hover:shadow-lg hover:border-primary/30 hover:-translate-y-1"
-                }`}
+              onClick={() => navigate(tool.link)}
+              className="group relative bg-card/80 backdrop-blur-sm border border-border/50 p-4 rounded-xl text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50 hover:shadow-lg hover:border-primary/30 hover:-translate-y-1"
             >
-              {tool.comingSoon && (
-                <div className="absolute top-2 right-2 bg-yellow-400/90 text-[8px] font-black text-yellow-950 px-1.5 py-0.5 rounded-full z-10 uppercase">
-                  Soon
-                </div>
-              )}
-              <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-3 transition-colors ${tool.comingSoon ? "bg-muted" : "bg-primary/10 group-hover:bg-primary/20"
-                }`}>
-                <tool.icon className={`w-5 h-5 ${tool.comingSoon ? "text-muted-foreground" : "text-primary"}`} />
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 transition-colors bg-primary/10 group-hover:bg-primary/20">
+                <tool.icon className="w-5 h-5 text-primary" />
               </div>
-              <h3 className={`font-semibold text-sm mb-0.5 transition-colors ${tool.comingSoon ? "text-muted-foreground" : "text-foreground group-hover:text-primary"
-                }`}>
+              <h3 className="font-semibold text-sm mb-0.5 transition-colors text-foreground group-hover:text-primary">
                 {tool.title}
               </h3>
               <p className="text-xs text-muted-foreground line-clamp-2">

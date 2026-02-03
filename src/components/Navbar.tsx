@@ -26,8 +26,7 @@ const toolCategories = [
       { name: "Merge PDF", link: "/pdf/merge-pdf" },
       { name: "Split PDF", link: "/pdf/split-pdf" },
       { name: "Compress PDF", link: "/pdf/compress-pdf" },
-      { name: "PDF to Word", link: "/pdf/pdf-to-word", comingSoon: true },
-      { name: "Word to PDF", link: "/pdf/word-to-pdf", comingSoon: true },
+      { name: "PDF to JPG", link: "/pdf/pdf-to-jpg" },
     ],
   },
   {

@@ -3,14 +3,12 @@ import {
   ImageIcon,
   Maximize,
   FileImage,
-  TrendingUp,
   ArrowRight,
-  Eraser,
   Sparkles,
   FileText,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import type { ElementType, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 interface ToolItemProps {
   icon: React.ComponentType<{ className?: string }>;
@@ -59,20 +57,6 @@ const ToolItem: React.FC<ToolItemProps> = ({ icon: Icon, title, description, onC
   </motion.div>
 );
 
-const ComingSoonItem = ({ icon: Icon, title }: { icon: React.ElementType; title: string }) => (
-  <div className="bg-card/40 backdrop-blur-sm border border-dashed border-border/60 rounded-xl p-4 relative opacity-60">
-    <div className="absolute top-2 right-2 bg-muted text-muted-foreground text-[10px] font-medium px-2 py-0.5 rounded-full">
-      Soon
-    </div>
-    <div className="flex items-center gap-3">
-      <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
-        <Icon className="w-5 h-5 text-muted-foreground" />
-      </div>
-      <span className="font-medium text-muted-foreground text-sm">{title}</span>
-    </div>
-  </div>
-);
-
 interface CategorySectionProps {
   id: string;
   icon: React.ComponentType<{ className?: string }>;
@@ -110,8 +94,7 @@ const ToolsSection = () => {
     { icon: FileText, title: "Merge PDF", description: "Combine multiple PDF documents into a single file.", link: "/pdf/merge-pdf" },
     { icon: FileText, title: "Split PDF", description: "Extract specific pages or split your PDF into parts.", link: "/pdf/split-pdf" },
     { icon: FileText, title: "Compress PDF", description: "Reduce PDF file size without losing document quality.", link: "/pdf/compress-pdf" },
-    { icon: FileText, title: "PDF to Word", description: "Convert your PDF files into editable Word documents.", link: "/pdf/pdf-to-word", comingSoon: true },
-    { icon: FileText, title: "Word to PDF", description: "Transform Word documents into professional PDF files.", link: "/pdf/word-to-pdf", comingSoon: true },
+    { icon: FileText, title: "PDF to JPG", description: "Convert PDF pages into high-quality JPG images.", link: "/pdf/pdf-to-jpg" },
   ];
 
   const imageTools = [
@@ -172,12 +155,6 @@ const ToolsSection = () => {
                 comingSoon={(tool as any).comingSoon}
               />
             ))}
-          </div>
-          {/* Coming Soon */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-            <ComingSoonItem icon={ImageIcon} title="Image Crop" />
-            <ComingSoonItem icon={Eraser} title="BG Remover" />
-            <ComingSoonItem icon={ImageIcon} title="Filters" />
           </div>
         </CategorySection>
       </div>
