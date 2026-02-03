@@ -74,8 +74,7 @@ const Index = () => {
         { name: "Merge PDF", path: "/pdf/merge-pdf", icon: Files, color: "text-slate-600 bg-slate-50" },
         { name: "Split PDF", path: "/pdf/split-pdf", icon: Scissors, color: "text-slate-600 bg-slate-50" },
         { name: "Compress PDF", path: "/pdf/compress-pdf", icon: Archive, color: "text-slate-600 bg-slate-50" },
-        { name: "PDF to Word", path: "/pdf/pdf-to-word", icon: FileText, color: "text-slate-600 bg-slate-50", comingSoon: true },
-        { name: "Word to PDF", path: "/pdf/word-to-pdf", icon: FileText, color: "text-slate-600 bg-slate-50", comingSoon: true },
+        { name: "PDF to JPG", path: "/pdf/pdf-to-jpg", icon: FileText, color: "text-slate-600 bg-slate-50" },
       ]
     },
     {
@@ -84,14 +83,6 @@ const Index = () => {
         { name: "Image Compressor", path: "/image-compressor", icon: ImageIcon, color: "text-slate-600 bg-slate-50" },
         { name: "Image Resizer", path: "/image-resizer", icon: Layers, color: "text-slate-600 bg-slate-50" },
         { name: "Format Converter", path: "/format-converter", icon: Globe, color: "text-slate-600 bg-slate-50" },
-      ]
-    },
-    {
-      title: "Coming Soon",
-      items: [
-        { name: "Image Crop", path: "#", icon: Scissors, comingSoon: true },
-        { name: "BG Remover", path: "#", icon: ImageIcon, comingSoon: true },
-        { name: "Filters", path: "#", icon: Sparkles, comingSoon: true },
       ]
     }
   ];
@@ -253,12 +244,8 @@ const Index = () => {
                   {category.items.map((tool, toolIdx) => (
                     <Link
                       key={toolIdx}
-                      to={tool.comingSoon ? "#" : tool.path}
-                      onClick={(e) => tool.comingSoon && e.preventDefault()}
-                      className={`group relative p-6 md:p-8 rounded-[24px] bg-white border border-slate-200 shadow-sm transition-all duration-300 ${tool.comingSoon
-                        ? "opacity-60 grayscale cursor-not-allowed pointer-events-none"
-                        : "hover:shadow-md hover:-translate-y-1 hover:border-blue-500 active:scale-[0.98]"
-                        }`}
+                      to={tool.path}
+                      className="group relative p-6 md:p-8 rounded-[24px] bg-white border border-slate-200 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 hover:border-blue-500 active:scale-[0.98]"
                     >
                       <div className="w-14 h-14 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mb-6 transition-transform group-hover:scale-110">
                         <tool.icon className="w-6 h-6" />
@@ -271,18 +258,11 @@ const Index = () => {
                               {tool.badge}
                             </span>
                           )}
-                          {tool.comingSoon && (
-                            <span className="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
-                              Soon
-                            </span>
-                          )}
                         </div>
                       </div>
-                      {!tool.comingSoon && (
-                        <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <ChevronRight className="w-5 h-5 text-blue-600" />
-                        </div>
-                      )}
+                      <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ChevronRight className="w-5 h-5 text-blue-600" />
+                      </div>
                     </Link>
                   ))}
                 </div>
