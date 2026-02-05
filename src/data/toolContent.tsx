@@ -233,6 +233,58 @@ export const toolContent = {
         richText: (
             <div className="space-y-16">
 
+                {/* How-To Guide Section */}
+                <div className="bg-gradient-to-br from-blue-50 to-slate-50 rounded-3xl p-8 md:p-12">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <Hash className="w-8 h-8 text-blue-600" />
+                        How to Merge PDFs for Free
+                    </h2>
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {[
+                            { step: "1", title: "Upload Your Files", desc: "Drag and drop multiple PDF files into the upload area above, or click to browse your device." },
+                            { step: "2", title: "Arrange the Order", desc: "Reorder your documents by dragging the thumbnails into your preferred sequence." },
+                            { step: "3", title: "Merge & Download", desc: "Click the 'Merge PDFs' button and download your combined file instantly." }
+                        ].map((item, i) => (
+                            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                                <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-black text-lg mb-4">{item.step}</div>
+                                <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
+                                <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Why Use ToolifyHubs Section */}
+                <div className="bg-white rounded-3xl p-8 md:p-12 border border-slate-100 shadow-sm">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <ShieldCheck className="w-8 h-8 text-blue-600" />
+                        Why Use ToolifyHubs?
+                    </h2>
+                    <div className="grid md:grid-cols-3 gap-8">
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-blue-600 font-bold">
+                                <Lock className="w-5 h-5" />
+                                Privacy First
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">Your files are processed locally in your browser. We never upload your documents to a server—your data stays on your device.</p>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-blue-600 font-bold">
+                                <Zap className="w-5 h-5" />
+                                No Limits
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">Merge as many files as you want with no daily limits, file size restrictions, or paywalls. Completely unlimited.</p>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-blue-600 font-bold">
+                                <Clock className="w-5 h-5" />
+                                Fast & Free
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">No sign-up or registration required. Get your merged PDF in seconds—100% free forever.</p>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Section 1: The Intro & Problem */}
                 <div className="text-center max-w-3xl mx-auto">
                     <h2 className="text-3xl font-bold text-slate-900 mb-4">The End of "Please Find Attached (5 Files)"</h2>
@@ -315,8 +367,16 @@ export const toolContent = {
                 answer: "No. Our merge engine is 'lossless', meaning it simply copies the pages into a new container without re-compressing the images."
             },
             {
+                question: "Is my data safe?",
+                answer: "Yes, since we process files locally in your browser, your data never leaves your device. We never upload your documents to external servers."
+            },
+            {
                 question: "Can I merge password-protected files?",
                 answer: "For security reasons, you must unlock/remove the password from the PDF before uploading it to be merged."
+            },
+            {
+                question: "Is it really free?",
+                answer: "Yes, 100% free with no hidden fees, watermarks, or registration required."
             },
             {
                 question: "Can I use this on my phone?",
@@ -329,6 +389,58 @@ export const toolContent = {
         heroDesc: "Break apart documents or extract specific pages with 100% fidelity. No quality loss, just pure efficiency.",
         richText: (
             <div className="space-y-16">
+
+                {/* How-To Guide Section */}
+                <div className="bg-gradient-to-br from-purple-50 to-slate-50 rounded-3xl p-8 md:p-12">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <Hash className="w-8 h-8 text-purple-600" />
+                        How to Split a PDF for Free
+                    </h2>
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {[
+                            { step: "1", title: "Upload Your PDF", desc: "Drag and drop your PDF file into the upload area above, or click to select from your device." },
+                            { step: "2", title: "Select Pages", desc: "Enter the page numbers or ranges you want to extract (e.g., '1-5, 8, 12-15')." },
+                            { step: "3", title: "Split & Download", desc: "Click 'Extract Pages' and download your new PDF containing only the selected pages." }
+                        ].map((item, i) => (
+                            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                                <div className="w-10 h-10 bg-purple-600 text-white rounded-full flex items-center justify-center font-black text-lg mb-4">{item.step}</div>
+                                <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
+                                <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Why Use ToolifyHubs Section */}
+                <div className="bg-white rounded-3xl p-8 md:p-12 border border-slate-100 shadow-sm">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <ShieldCheck className="w-8 h-8 text-purple-600" />
+                        Why Use ToolifyHubs?
+                    </h2>
+                    <div className="grid md:grid-cols-3 gap-8">
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-purple-600 font-bold">
+                                <Lock className="w-5 h-5" />
+                                Privacy First
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">Your files are processed locally in your browser. We never upload your documents to a server—your data stays on your device.</p>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-purple-600 font-bold">
+                                <Zap className="w-5 h-5" />
+                                No Limits
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">Split as many PDFs as you want with no daily limits, file size restrictions, or paywalls. Completely unlimited.</p>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-purple-600 font-bold">
+                                <Clock className="w-5 h-5" />
+                                Fast & Free
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">No sign-up or registration required. Extract pages in seconds—100% free forever.</p>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Section 1: The Intro & Problem */}
                 <div className="text-center max-w-3xl mx-auto">
@@ -350,7 +462,7 @@ export const toolContent = {
                         </div>
                         <h3 className="text-xl font-bold text-slate-900 mb-3">Custom Page Ranges</h3>
                         <p className="text-slate-600 leading-relaxed">
-                            Need pages 1-5 and page 20? No problem. Input exact presidential ranges (e.g., "1-5, 20") to extract non-consecutive sections into a single, clean new PDF file.
+                            Need pages 1-5 and page 20? No problem. Input exact page ranges (e.g., "1-5, 20") to extract non-consecutive sections into a single, clean new PDF file.
                         </p>
                     </div>
 
@@ -408,6 +520,10 @@ export const toolContent = {
                 answer: "Yes, significantly. If you extract 5 pages from a 100-page document, the new file will be roughly 5% of the original size."
             },
             {
+                question: "Is my data safe?",
+                answer: "Yes, since we process files locally in your browser, your data never leaves your device. We never upload your documents to external servers."
+            },
+            {
                 question: "Will my bookmarks and links still work?",
                 answer: "Links within the extracted pages are preserved. Links pointing to pages that were removed will obviously no longer function."
             },
@@ -416,8 +532,8 @@ export const toolContent = {
                 answer: "Our engine handles documents up to 500 pages effortlessly within the browser environment."
             },
             {
-                question: "Are the pages I removed deleted?",
-                answer: "Yes. The pages you did not select are discarded immediately. The new file is cached for 1 hour before being permanently wiped."
+                question: "Is it really free?",
+                answer: "Yes, 100% free with no hidden fees, watermarks, or registration required."
             }
         ]
     },
@@ -426,6 +542,58 @@ export const toolContent = {
         heroDesc: "Shrink large PDF documents while maintaining crystal-clear text and image quality with our intelligent optimization engine.",
         richText: (
             <div className="space-y-16">
+
+                {/* How-To Guide Section */}
+                <div className="bg-gradient-to-br from-emerald-50 to-slate-50 rounded-3xl p-8 md:p-12">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <Hash className="w-8 h-8 text-emerald-600" />
+                        How to Compress a PDF for Free
+                    </h2>
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {[
+                            { step: "1", title: "Upload Your PDF", desc: "Drag and drop your PDF file into the upload area above, or click to browse and select." },
+                            { step: "2", title: "Choose Quality Level", desc: "Select your preferred compression level—balance between file size and visual quality." },
+                            { step: "3", title: "Compress & Download", desc: "Click 'Compress' and download your optimized PDF instantly. See the size reduction!" }
+                        ].map((item, i) => (
+                            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                                <div className="w-10 h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center font-black text-lg mb-4">{item.step}</div>
+                                <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
+                                <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Why Use ToolifyHubs Section */}
+                <div className="bg-white rounded-3xl p-8 md:p-12 border border-slate-100 shadow-sm">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <ShieldCheck className="w-8 h-8 text-emerald-600" />
+                        Why Use ToolifyHubs?
+                    </h2>
+                    <div className="grid md:grid-cols-3 gap-8">
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-emerald-600 font-bold">
+                                <Lock className="w-5 h-5" />
+                                Privacy First
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">Your files are processed locally in your browser. We never upload your documents to a server—your data stays on your device.</p>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-emerald-600 font-bold">
+                                <Zap className="w-5 h-5" />
+                                No Limits
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">Compress as many PDFs as you want with no daily limits or paywalls. Completely unlimited usage.</p>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-emerald-600 font-bold">
+                                <Clock className="w-5 h-5" />
+                                Fast & Free
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">No sign-up or registration required. Reduce file sizes in seconds—100% free forever.</p>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Section 1: The Intro & Problem */}
                 <div className="text-center max-w-3xl mx-auto">
@@ -445,7 +613,7 @@ export const toolContent = {
                         <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6 text-blue-600">
                             <Mail className="w-6 h-6" />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-900 mb-3">Email Ready instantly</h3>
+                        <h3 className="text-xl font-bold text-slate-900 mb-3">Email Ready Instantly</h3>
                         <p className="text-slate-600 leading-relaxed">
                             Turn that bloated 40MB contract into a sleek 3MB attachment. Our algorithm specifically targets the metadata and heavy assets that cause file bloat, keeping the document light enough for any inbox.
                         </p>
@@ -505,12 +673,16 @@ export const toolContent = {
                 answer: "It depends on the content. Image-heavy files can often be reduced by 70-90%. Text-only legal documents may only see a 10-20% reduction."
             },
             {
-                question: "Is this tool safe for sensitive documents?",
-                answer: "Yes. All processing is local-first and encrypted. Files are automatically deleted from our cache after 60 minutes."
+                question: "Is my data safe?",
+                answer: "Yes, since we process files locally in your browser, your data never leaves your device. We never upload your documents to external servers."
             },
             {
                 question: "What happens to the hyperlinks in the PDF?",
                 answer: "Hyperlinks, bookmarks, and Table of Contents structures are preserved intact during the compression process."
+            },
+            {
+                question: "Is it really free?",
+                answer: "Yes, 100% free with no hidden fees, watermarks, or registration required."
             },
             {
                 question: "Can I compress a password-protected PDF?",
@@ -523,6 +695,58 @@ export const toolContent = {
         heroDesc: "Shrink image file sizes by up to 90% while maintaining stunning visual quality. Perfect for web performance and SEO.",
         richText: (
             <div className="space-y-16">
+
+                {/* How-To Guide Section */}
+                <div className="bg-gradient-to-br from-orange-50 to-slate-50 rounded-3xl p-8 md:p-12">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <Hash className="w-8 h-8 text-orange-600" />
+                        How to Compress Images for Free
+                    </h2>
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {[
+                            { step: "1", title: "Upload Your Image", desc: "Drag and drop your image into the upload area above, or click to browse your device." },
+                            { step: "2", title: "Adjust Quality", desc: "Use the slider to set your preferred compression level—balance between file size and visual quality." },
+                            { step: "3", title: "Compress & Download", desc: "Click 'Compress & Download' and save your optimized image instantly." }
+                        ].map((item, i) => (
+                            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                                <div className="w-10 h-10 bg-orange-600 text-white rounded-full flex items-center justify-center font-black text-lg mb-4">{item.step}</div>
+                                <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
+                                <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Why Use ToolifyHubs Section */}
+                <div className="bg-white rounded-3xl p-8 md:p-12 border border-slate-100 shadow-sm">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <ShieldCheck className="w-8 h-8 text-orange-600" />
+                        Why Use ToolifyHubs?
+                    </h2>
+                    <div className="grid md:grid-cols-3 gap-8">
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-orange-600 font-bold">
+                                <Lock className="w-5 h-5" />
+                                Privacy First
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">Your images are processed locally in your browser using WebAssembly. We never upload your photos to a server.</p>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-orange-600 font-bold">
+                                <Zap className="w-5 h-5" />
+                                No Limits
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">Compress as many images as you want with no daily limits or paywalls. Completely unlimited usage.</p>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-orange-600 font-bold">
+                                <Clock className="w-5 h-5" />
+                                Fast & Free
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">No sign-up or registration required. Optimize your images in seconds—100% free forever.</p>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Section 1: The Intro & Problem */}
                 <div className="text-center max-w-3xl mx-auto">
@@ -600,12 +824,16 @@ export const toolContent = {
                 answer: "No. Our algorithm is specifically tuned to preserve the 'Alpha Channel' (transparency) of PNG files."
             },
             {
+                question: "Is my data safe?",
+                answer: "Yes, since we process images locally in your browser, your data never leaves your device. We never upload your photos to external servers."
+            },
+            {
                 question: "Can I batch compress my photos?",
                 answer: "Yes! You can select or drag multiple images at once to compress them in a single session."
             },
             {
-                question: "Does this support the new WebP format?",
-                answer: "Yes. You can upload WebP files, and we will compress them even further."
+                question: "Is it really free?",
+                answer: "Yes, 100% free with no hidden fees, watermarks, or registration required."
             },
             {
                 question: "Is there a maximum image resolution?",
@@ -618,6 +846,58 @@ export const toolContent = {
         heroDesc: "Change the dimensions of your images for social media, websites, or print without losing clarity.",
         richText: (
             <div className="space-y-16">
+
+                {/* How-To Guide Section */}
+                <div className="bg-gradient-to-br from-pink-50 to-slate-50 rounded-3xl p-8 md:p-12">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <Hash className="w-8 h-8 text-pink-600" />
+                        How to Resize Images for Free
+                    </h2>
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {[
+                            { step: "1", title: "Upload Your Image", desc: "Drag and drop your image into the upload area above, or click to browse your device." },
+                            { step: "2", title: "Set Dimensions", desc: "Enter your desired width and height in pixels, or use percentage scaling. Aspect ratio locks automatically." },
+                            { step: "3", title: "Resize & Download", desc: "Click 'Resize & Download' and save your perfectly sized image instantly." }
+                        ].map((item, i) => (
+                            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                                <div className="w-10 h-10 bg-pink-600 text-white rounded-full flex items-center justify-center font-black text-lg mb-4">{item.step}</div>
+                                <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
+                                <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Why Use ToolifyHubs Section */}
+                <div className="bg-white rounded-3xl p-8 md:p-12 border border-slate-100 shadow-sm">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <ShieldCheck className="w-8 h-8 text-pink-600" />
+                        Why Use ToolifyHubs?
+                    </h2>
+                    <div className="grid md:grid-cols-3 gap-8">
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-pink-600 font-bold">
+                                <Lock className="w-5 h-5" />
+                                Privacy First
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">Your images are processed locally in your browser. We never upload your photos to a server—your data stays on your device.</p>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-pink-600 font-bold">
+                                <Zap className="w-5 h-5" />
+                                No Limits
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">Resize as many images as you want with no daily limits or paywalls. Completely unlimited usage.</p>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-pink-600 font-bold">
+                                <Clock className="w-5 h-5" />
+                                Fast & Free
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">No sign-up or registration required. Resize your images in seconds—100% free forever.</p>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Section 1: The Intro & Problem */}
                 <div className="text-center max-w-3xl mx-auto">
@@ -697,12 +977,16 @@ export const toolContent = {
                 answer: "Yes. You can switch input modes to resize by specific pixels (px) or by a percentage scale."
             },
             {
+                question: "Is my data safe?",
+                answer: "Yes, since we process images locally in your browser, your data never leaves your device. We never upload your photos to external servers."
+            },
+            {
                 question: "Does this remove Exif metadata?",
                 answer: "For privacy reasons, yes. We strip out GPS and camera data when generating the new resized image."
             },
             {
-                question: "Can I resize multiple images to the same size?",
-                answer: "Currently, we focus on single-image precision to ensure you get the exact crop you need, but batch resizing is coming soon."
+                question: "Is it really free?",
+                answer: "Yes, 100% free with no hidden fees, watermarks, or registration required."
             },
             {
                 question: "Is there a file size limit?",
@@ -711,10 +995,62 @@ export const toolContent = {
         ]
     },
     "format-converter": {
-        heroTitle: "Universal Document Format Converter",
-        heroDesc: "Switch between PDF, Word, and Image formats seamlessly with our all-in-one conversion suite.",
+        heroTitle: "Universal Image Format Converter",
+        heroDesc: "Switch between PNG, JPG, and WebP formats seamlessly with our instant conversion tool.",
         richText: (
             <div className="space-y-16">
+
+                {/* How-To Guide Section */}
+                <div className="bg-gradient-to-br from-yellow-50 to-slate-50 rounded-3xl p-8 md:p-12">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <Hash className="w-8 h-8 text-yellow-600" />
+                        How to Convert Image Formats for Free
+                    </h2>
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {[
+                            { step: "1", title: "Upload Your Image", desc: "Drag and drop your image into the upload area above, or click to browse your device." },
+                            { step: "2", title: "Select Target Format", desc: "Choose your desired output format: PNG, JPEG, or WebP from the dropdown menu." },
+                            { step: "3", title: "Convert & Download", desc: "Click 'Convert & Download' and save your converted image instantly." }
+                        ].map((item, i) => (
+                            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                                <div className="w-10 h-10 bg-yellow-600 text-white rounded-full flex items-center justify-center font-black text-lg mb-4">{item.step}</div>
+                                <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
+                                <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Why Use ToolifyHubs Section */}
+                <div className="bg-white rounded-3xl p-8 md:p-12 border border-slate-100 shadow-sm">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <ShieldCheck className="w-8 h-8 text-yellow-600" />
+                        Why Use ToolifyHubs?
+                    </h2>
+                    <div className="grid md:grid-cols-3 gap-8">
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-yellow-600 font-bold">
+                                <Lock className="w-5 h-5" />
+                                Privacy First
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">Your images are processed locally in your browser. We never upload your photos to a server—your data stays on your device.</p>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-yellow-600 font-bold">
+                                <Zap className="w-5 h-5" />
+                                No Limits
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">Convert as many images as you want with no daily limits or paywalls. Completely unlimited usage.</p>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-yellow-600 font-bold">
+                                <Clock className="w-5 h-5" />
+                                Fast & Free
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">No sign-up or registration required. Convert your images in seconds—100% free forever.</p>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Section 1: The Intro & Problem */}
                 <div className="text-center max-w-3xl mx-auto">
@@ -794,12 +1130,16 @@ export const toolContent = {
                 answer: "JPG is a 'lossy' format, so technically yes, you lose some data. However, for standard viewing, the difference is usually invisible to the naked eye."
             },
             {
+                question: "Is my data safe?",
+                answer: "Yes, since we process images locally in your browser, your data never leaves your device. We never upload your photos to external servers."
+            },
+            {
                 question: "What is the best format for logos?",
                 answer: "PNG is best for logos because it supports transparency and sharp lines. Do not use JPG for logos as it can add 'noise' around text."
             },
             {
-                question: "Do you store my converted photos?",
-                answer: "No. The conversion happens in your browser's temporary memory. Once you close the tab, the data is gone forever."
+                question: "Is it really free?",
+                answer: "Yes, 100% free with no hidden fees, watermarks, or registration required."
             },
             {
                 question: "Is there a limit on file size?",
@@ -812,6 +1152,60 @@ export const toolContent = {
         heroDesc: "Extract pages from your PDF and save them as high-quality JPG images instantly.",
         richText: (
             <div className="space-y-16">
+
+                {/* How-To Guide Section */}
+                <div className="bg-gradient-to-br from-indigo-50 to-slate-50 rounded-3xl p-8 md:p-12">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <Hash className="w-8 h-8 text-indigo-600" />
+                        How to Convert PDF to JPG for Free
+                    </h2>
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {[
+                            { step: "1", title: "Upload Your PDF", desc: "Drag and drop your PDF file into the upload area above, or click to browse your device." },
+                            { step: "2", title: "Select Pages", desc: "Choose which pages to convert—all pages or specific ones. Adjust quality settings if needed." },
+                            { step: "3", title: "Convert & Download", desc: "Click 'Convert' and download your high-quality JPG images instantly as a ZIP file." }
+                        ].map((item, i) => (
+                            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                                <div className="w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-black text-lg mb-4">{item.step}</div>
+                                <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
+                                <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Why Use ToolifyHubs Section */}
+                <div className="bg-white rounded-3xl p-8 md:p-12 border border-slate-100 shadow-sm">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <ShieldCheck className="w-8 h-8 text-indigo-600" />
+                        Why Use ToolifyHubs?
+                    </h2>
+                    <div className="grid md:grid-cols-3 gap-8">
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-indigo-600 font-bold">
+                                <Lock className="w-5 h-5" />
+                                Privacy First
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">Your files are processed locally in your browser. We never upload your documents to a server—your data stays on your device.</p>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-indigo-600 font-bold">
+                                <Zap className="w-5 h-5" />
+                                No Limits
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">Convert as many PDFs as you want with no daily limits, page restrictions, or paywalls. Completely unlimited.</p>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-indigo-600 font-bold">
+                                <Clock className="w-5 h-5" />
+                                Fast & Free
+                            </div>
+                            <p className="text-slate-600 leading-relaxed">No sign-up or registration required. Convert your PDFs in seconds—100% free forever.</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Feature Section */}
                 <div className="text-center max-w-3xl mx-auto">
                     <h2 className="text-3xl font-bold text-slate-900 mb-4">PDF to Visual Proof</h2>
                     <p className="text-lg text-slate-600">
@@ -821,25 +1215,25 @@ export const toolContent = {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
-                        <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mb-4 text-blue-600">
+                        <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6 text-blue-600">
                             <Eye className="w-6 h-6" />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-900 mb-2">High-DPI Rendering</h3>
-                        <p className="text-slate-600 text-sm leading-relaxed">We render your pages at 300 DPI to ensure text remains crisp even in image format.</p>
+                        <h3 className="text-xl font-bold text-slate-900 mb-3">High-DPI Rendering</h3>
+                        <p className="text-slate-600 leading-relaxed">We render your pages at 300 DPI to ensure text remains crisp even in image format.</p>
                     </div>
                     <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
-                        <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mb-4 text-blue-600">
+                        <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6 text-blue-600">
                             <Files className="w-6 h-6" />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-900 mb-2">Bulk Extraction</h3>
-                        <p className="text-slate-600 text-sm leading-relaxed">Download your entire document as a ZIP of individual high-quality JPG files.</p>
+                        <h3 className="text-xl font-bold text-slate-900 mb-3">Bulk Extraction</h3>
+                        <p className="text-slate-600 leading-relaxed">Download your entire document as a ZIP of individual high-quality JPG files.</p>
                     </div>
                     <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
-                        <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mb-4 text-blue-600">
+                        <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6 text-blue-600">
                             <Globe className="w-6 h-6" />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-900 mb-2">Universal Viewing</h3>
-                        <p className="text-slate-600 text-sm leading-relaxed">Images open on any device without the need for specialized PDF software or plugins.</p>
+                        <h3 className="text-xl font-bold text-slate-900 mb-3">Universal Viewing</h3>
+                        <p className="text-slate-600 leading-relaxed">Images open on any device without the need for specialized PDF software or plugins.</p>
                     </div>
                 </div>
 
@@ -857,11 +1251,30 @@ export const toolContent = {
             </div>
         ),
         faqs: [
-            { question: "What is the quality of the output JPG?", answer: "We use high-DPI rendering to ensure that the JPG images are crisp and readable, suitable for both web use and printing." },
-            { question: "Can I convert single pages?", answer: "Yes, you can choose specific pages or convert the entire document into a set of images." },
-            { question: "Is the resolution adjustable?", answer: "Yes, our tool provides quality settings to balance file size and visual clarity." },
-            { question: "What happens to the font accuracy?", answer: "We render the PDF exactly as it appears, converting all fonts and vectors into pixel-perfect JPG data." },
-            { question: "Is this free for large documents?", answer: "Yes, we support multi-page PDF conversion at no cost." }
+            { 
+                question: "What is the quality of the output JPG?", 
+                answer: "We use high-DPI rendering to ensure that the JPG images are crisp and readable, suitable for both web use and printing." 
+            },
+            { 
+                question: "Can I convert single pages?", 
+                answer: "Yes, you can choose specific pages or convert the entire document into a set of images." 
+            },
+            { 
+                question: "Is my data safe?", 
+                answer: "Yes, since we process files locally in your browser, your data never leaves your device. We never upload your documents to external servers." 
+            },
+            { 
+                question: "Is the resolution adjustable?", 
+                answer: "Yes, our tool provides quality settings to balance file size and visual clarity." 
+            },
+            { 
+                question: "Is it really free?", 
+                answer: "Yes, 100% free with no hidden fees, watermarks, or registration required." 
+            },
+            { 
+                question: "Is this free for large documents?", 
+                answer: "Yes, we support multi-page PDF conversion at no cost." 
+            }
         ]
     }
 };

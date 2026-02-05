@@ -1,17 +1,72 @@
-import { Sparkles } from "lucide-react";
+import { Sparkles, Hash, ShieldCheck, Lock, Zap, Clock } from "lucide-react";
 import ToolLayout from "@/components/ToolLayout";
 import WordFormatterTool from "@/components/tools/WordFormatter";
+
 const WordFormatterPage = () => {
   const faqs = [
     { question: "How does the AI know my formatting style?", answer: "Our engine detects headers, lists, and emphasis based on font hierarchy and semantic spacing relative to the document body." },
     { question: "Does this work on complex legal briefs?", answer: "Yes, it is specifically tuned to standardize indentation, line spacing, and citation clusters in professional legal and academic documents." },
+    { question: "Is my data safe?", answer: "Yes, since we process documents using secure cloud infrastructure, your data is encrypted and never stored permanently. Files are deleted after processing." },
     { question: "Will it fix my broken Table of Contents?", answer: "It normalizes the heading levels so that generating a fresh Table of Contents in Word becomes a one-click process." },
-    { question: "Can I undo the AI's formatting?", answer: "Since we provide a new download, your original file remains untouched. You can always revert to your initial version." },
+    { question: "Is it really free?", answer: "Yes, 100% free with no hidden fees, watermarks, or registration required." },
     { question: "Does it support non-English documents?", answer: "Yes, our structural analysis is based on document layout and character clusters, making it effective for most major languages." }
   ];
 
   const seoContent = (
     <div className="space-y-16">
+      
+      {/* How-To Guide Section */}
+      <div className="bg-gradient-to-br from-violet-50 to-slate-50 rounded-3xl p-8 md:p-12">
+        <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+          <Hash className="w-8 h-8 text-violet-600" />
+          How to Format Word Documents for Free
+        </h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            { step: "1", title: "Upload Your Document", desc: "Drag and drop your Word file (.docx) into the upload area above, or click to browse your device." },
+            { step: "2", title: "AI Analyzes Structure", desc: "Our AI engine automatically detects headings, paragraphs, and formatting issues in your document." },
+            { step: "3", title: "Format & Download", desc: "Click 'Format Document' and download your professionally formatted Word file instantly." }
+          ].map((item, i) => (
+            <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+              <div className="w-10 h-10 bg-violet-600 text-white rounded-full flex items-center justify-center font-black text-lg mb-4">{item.step}</div>
+              <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Why Use ToolifyHubs Section */}
+      <div className="bg-white rounded-3xl p-8 md:p-12 border border-slate-100 shadow-sm">
+        <h2 className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+          <ShieldCheck className="w-8 h-8 text-violet-600" />
+          Why Use ToolifyHubs?
+        </h2>
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 text-violet-600 font-bold">
+              <Lock className="w-5 h-5" />
+              Privacy First
+            </div>
+            <p className="text-slate-600 leading-relaxed">Your documents are processed securely and never stored permanently. Files are encrypted and deleted immediately after formatting.</p>
+          </div>
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 text-violet-600 font-bold">
+              <Zap className="w-5 h-5" />
+              No Limits
+            </div>
+            <p className="text-slate-600 leading-relaxed">Format as many documents as you want with no daily limits or paywalls. Completely unlimited usage.</p>
+          </div>
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 text-violet-600 font-bold">
+              <Clock className="w-5 h-5" />
+              Fast & Free
+            </div>
+            <p className="text-slate-600 leading-relaxed">No sign-up or registration required. Get your formatted document in seconds—100% free forever.</p>
+          </div>
+        </div>
+      </div>
+
       <section>
         <h2 className="text-3xl font-black text-slate-900 mb-6 flex items-center gap-3">
           <Sparkles className="w-8 h-8 text-blue-600" />
